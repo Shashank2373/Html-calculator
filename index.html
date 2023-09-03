@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <div class="myDiv">
+    <h1 align="center" style="margin: 0%; color: white;">Calculator!!</h1>
+    <div align="center">
+      <input class="id" id="inputBox" type="text" readonly>
+      <br>
+      <input class="id" id="result" type="text" readonly>
+      <br>
+    </div>
+    <div align="center">
+      <button class="id1" onclick="appendToInput('1')" style="color: black">1</button>
+      <button class="id1" onclick="appendToInput('2')" style="color: black">2</button>
+      <button class="id1" onclick="appendToInput('3')" style="color: black">3</button>
+      <button class="id1" onclick="appendToInput('+')" style="color: black;">+</button>
+      <br>
+      <button class="id1" onclick="appendToInput('4')" style="color: black;">4</button>
+      <button class="id1" onclick="appendToInput('5')" style="color: black;">5</button>
+      <button class="id1" onclick="appendToInput('6')" style="color: black;">6</button>
+      <button class="id1" onclick="appendToInput('-')" style="color: black;">-</button>
+      <br>
+      <button class="id1" onclick="appendToInput('7')" style="color: black;">7</button>
+      <button class="id1" onclick="appendToInput('8')" style="color: black;">8</button>
+      <button class="id1" onclick="appendToInput('9')" style="color: black;">9</button>
+      <button class="id1" onclick="appendToInput('*')" style="color: black;">*</button>
+      <br>
+      <button class="id1" onclick="appendToInput('0')" style="color: black;">0</button>
+      <button class="id1" onclick="appendToInput('.')" style="color: black;">.</button>
+      <button class="id1" onclick="clearInput()" style="color: black;">C</button>
+      <button class="id1" onclick="appendToInput('/')" style="color: black;">/</button>
+      <br>
+      <button class="id1" onclick="calculate()" style="color: black">=</button>
+      <button class="id1" onclick="appendToInput('(')" style="color: black;">(</button>
+      <button class="id1" onclick="appendToInput(')')" style="color: black">)</button>
+      <button class="id1" onclick="calculatePercentage()" style="color: black;">%</button>
+      <br>
+    </div>
+  </div>
+</body>
+<script>
+  let currentInput = '';
+  let isOpenBracket = false;
+
+  function appendToInput(value) {
+      if (value === '(') {
+          isOpenBracket = true;
+      }
+      if (value === ')') {
+          isOpenBracket = false;
+      }
+
+      if (!isOpenBracket && currentInput === '' && (value === '*' || value === '/')) {
+          return; // Avoid starting with operator
+      }
+
+      currentInput += value;
+      updateInputBox();
+  }
+
+  function calculate() {
+      try {
+          const result = eval(currentInput);
+          currentInput = result.toString();
+          updateResult();
+      } catch (error) {
+          currentInput = 'Error';
+          updateResult();
+      }
+  }
+
+  function calculatePercentage() {
+      try {
+        const result = eval(currentInput) / 100;
+        currentInput = result.toString();
+        updateResult();
+      } catch (error) {
+        currentInput = 'Error';
+        updateResult();
+      }
+  }
+
+  function clearInput() {
+    currentInput = '';
+    isOpenBracket = false;
+    updateInputBox();
+    updateResult();
+  }
+
+  function backspace() {
+    currentInput = currentInput.slice(0, -1);
+    updateInputBox();
+    updateResult();
+  }
+
+  function updateInputBox() {
+    document.getElementById('inputBox').value = currentInput;
+  }
+
+  function updateResult() {
+    document.getElementById('result').value = currentInput;
+  }
+</script>
+</html>
